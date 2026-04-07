@@ -34,7 +34,7 @@ server:
       configuration:
         mountPath: /
         services:
-          - urlPath: /V2/(S(itevdqwqu3mcqphdz1xfmcz4))/OData/OData.svc
+          - urlPath: /V2/\(S\(itevdqwqu3mcqphdz1xfmcz4\)\)/OData/OData.svc
             metadataPath: ./webapp/localService/mainService/metadata.xml
             mockdataPath: ./webapp/localService/mainService/data
             generateMockData: true

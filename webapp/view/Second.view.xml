@@ -1,0 +1,13 @@
+<mvc:View
+    controllerName="com.sap.btp.zcurdapp.zopa.controller.Second"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+>
+    <Page
+        id="Secondpage"
+        title="{i18n>title}"
+    >
+    <Button id ="backbutton" text="back navigationNavigation" press="onBacknavigation"  />
+      
+    </Page>
+</mvc:View>

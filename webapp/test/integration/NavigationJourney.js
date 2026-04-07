@@ -17,7 +17,23 @@ sap.ui.define([
 		Then.onTheAppPage.iShouldSeeTheApp();
       	Then.onTheViewPage.iShouldSeeThePageView();
 
-		//Cleanup
+		// Actions
+		When.onTheViewPage.iEnterText(5, "idId")
+		.and.iEnterText("Restst", "idName")
+		.and.iExecuteButton("idCreateButton")
+		.and.iExecuteConfirmButton();
+
+		Then.onTheViewPage.iSeeMessageToast();
+
+
+		When.onTheViewPage.iExecuteButton("navPage2");
+
+
+		// When.onTheViewPage.iSelectedRow("idList");
+
+
+
+		// Cleanup
 		Then.iTeardownMyApp();
 	});
 });

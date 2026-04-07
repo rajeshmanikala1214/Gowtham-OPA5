@@ -27,7 +27,8 @@ sap.ui.define([
                     // headers:{}
                     success: (createdData)=>{
                         oModel.setData(createdData);
-                        sap.m.MessageBox.success("Data Created Successfully")
+                        sap.m.MessageBox.success("Data Created Successfully");
+                       sap.m.MessageToast.show("Data Created Successfully");
                     },
                     error: (error)=>{
                         sap.m.MessageBox.error("Error while creating Data");

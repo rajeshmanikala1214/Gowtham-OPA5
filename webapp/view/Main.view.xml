@@ -26,6 +26,7 @@
             />
 
             <Button
+                id="idCreateButton"
                 text="create"
                 press="onCreateCategory"
             />
@@ -37,6 +38,8 @@
                 text="Delete"
                 press="onDeleteCategory"
             />
+
+            <Button text="Nav to Second page" id="navPage2" press="onNavToSecondPage" />
         </VBox>
     </Page>
 </mvc:View>

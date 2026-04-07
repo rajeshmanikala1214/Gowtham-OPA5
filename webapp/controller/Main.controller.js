@@ -1,8 +1,8 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/m/MessageBox",
-     "com/sap/btp/zcurdapp/zopa/model/models"
-], (Controller, MessageBox,models) => {
+    "com/sap/btp/zcurdapp/zopa/model/models"
+], (Controller, MessageBox, models) => {
     "use strict";
 
     return Controller.extend("com.sap.btp.zcurdapp.zopa.controller.Main", {
@@ -19,13 +19,14 @@ sap.ui.define([
 
             var oModel = this.getView().getModel();
             oModel.setUseBatch(false);
-            const returnModel = models.oCreateCategory(oModel,obj);
+            const returnModel = models.oCreateCategory(oModel, obj);
 
-            returnModel.attachRequestCompleted(function(oEvent){
-                oEvent.getSource().detachRequestCompleted(function(){}, this)
+            returnModel.attachRequestCompleted(function (oEvent) {
+                oEvent.getSource().detachRequestCompleted(function () { }, this)
                 this.getView().setModel(oModel);
+                sap.m.MessageToast.show("Created Successfully")
             }, this)
-            
+
 
 
             // oModel.create("/Categories", obj, {
@@ -53,15 +54,15 @@ sap.ui.define([
             oModel.update(`/Categories(${obj.ID})`, obj, {
                 success: oData => {
                     debugger
-                   MessageBox.success("Updated Successflly");
+                    MessageBox.success("Updated Successflly");
                 },
                 error: oError => {
                     debugger
-                  MessageBox.error("Updated Successflly");
+                    MessageBox.error("Updated Successflly");
                 }
             });
         },
-onDeleteCategory: function (oEvent) {
+        onDeleteCategory: function (oEvent) {
             const oList = this.getView().byId("idList");
             const oSelectedItem = oList.getSelectedItem();
             const oObj = oSelectedItem.getBindingContext().getObject();
@@ -70,14 +71,21 @@ onDeleteCategory: function (oEvent) {
             oModel.remove(`/Categories(${parseInt(oObj.ID)})`, {
                 success: oData => {
                     debugger
-                   MessageBox.success("Deleted Successflly");
+                    MessageBox.success("Deleted Successflly");
                 },
                 error: oError => {
                     debugger
-                  MessageBox.error("Error Successflly");
+                    MessageBox.error("Error Successflly");
                 }
             });
         },
+
+        onNavToSecondPage: function () {
+            const oRouter = this.getOwnerComponent().getRouter();
+            oRouter.navTo("Second")
+
+        }
+
 
     });
 });
