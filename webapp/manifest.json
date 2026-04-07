@@ -98,7 +98,7 @@
         },
         {
           "name": "Second",
-          "pattern": "Second",
+          "pattern": "Second/path",
           "target": [
             "Second"
           ]

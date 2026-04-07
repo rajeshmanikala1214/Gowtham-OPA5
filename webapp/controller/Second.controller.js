@@ -8,7 +8,7 @@ sap.ui.define([
     return Controller.extend("com.sap.btp.zcurdapp.zopa.controller.Second", {
         onInit() {
 
-            console.log(this.getOwnerComponent())
+            // console.log(this.getOwnerComponent())
 // const oRouter = this.getOwnerComponent().getRouter();
 // 	oRouter.getRoute("Second").attachMatched(this._onRouteMatched, this);
 

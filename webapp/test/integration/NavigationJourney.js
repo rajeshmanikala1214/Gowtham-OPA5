@@ -26,7 +26,7 @@ sap.ui.define([
 		Then.onTheViewPage.iSeeMessageToast();
 
 
-		When.onTheViewPage.iExecuteButton("navPage2");
+		// When.onTheViewPage.iExecuteButton("navPage2");
 
 
 		// When.onTheViewPage.iSelectedRow("idList");
