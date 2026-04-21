@@ -1,0 +1,27 @@
+general:
+  buildTool: "npm"
+
+steps:
+  sonarExecuteScan:
+    serverUrl: "http://54.144.105.219:9000"
+    instance: ""
+    token: "squ_79729918fc50c1b6031ee56a075dc51b247406ce"
+    projectKey: "com.sap.btp.zcurdapp.zopa"
+    waitForQualityGate: false
+    dockerImage: "sonarsource/sonar-scanner-cli:latest"
+    options:
+      - "-Dsonar.projectName=Gowtham OPA5 Tests"
+      - "-Dsonar.projectVersion=0.0.1"
+      - "-Dsonar.sources=webapp"
+      - "-Dsonar.exclusions=webapp/resources/**,webapp/localService/**,webapp/test/**,dist/**,node_modules/**,reports/**"
+      - "-Dsonar.tests=webapp/test"
+      - "-Dsonar.test.inclusions=webapp/test/**/*.js"
+      - "-Dsonar.javascript.file.suffixes=.js"
+      - "-Dsonar.testExecutionReportPaths=reports/test-execution.xml"
+
+  testsPublishResults:
+    failOnError: false
+    junit:
+      pattern: "**/reports/TESTS*.xml"
+      archive: true
+      allowEmptyResults: true

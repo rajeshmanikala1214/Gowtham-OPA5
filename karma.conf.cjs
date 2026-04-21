@@ -8,9 +8,8 @@ module.exports = function (config) {
       paths: {
         webapp: "webapp"
       },
-      // Load UI5 from CDN — avoids incomplete local resources
       url: "https://ui5.sap.com",
-      version: "1.146.0"
+      version: "1.120.23"
     },
 
     hostname: process.env.PIPER_SELENIUM_HOSTNAME || "karma",

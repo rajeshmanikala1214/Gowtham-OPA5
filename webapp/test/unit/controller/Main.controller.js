@@ -27,9 +27,13 @@ sap.ui.define([
   });
 
   QUnit.test("onInit does not throw", function (assert) {
-    assert.doesNotThrow(function () {
+    var bThrew = false;
+    try {
       this.oController.onInit();
-    }.bind(this), "onInit() executes without error");
+    } catch (e) {
+      bThrew = true;
+    }
+    assert.ok(!bThrew, "onInit() executes without throwing an error");
   });
 
   QUnit.module("Main Controller - Model Handling", {
@@ -65,10 +69,10 @@ sap.ui.define([
 
   QUnit.test("JSONModel item values are numeric", function (assert) {
     var aItems = this.oModel.getProperty("/items");
-    aItems.forEach(function (oItem) {
-      assert.ok(typeof oItem.value === "number",
-        "Value of " + oItem.name + " is a number");
+    var bAllNumeric = aItems.every(function (oItem) {
+      return typeof oItem.value === "number";
     });
+    assert.ok(bAllNumeric, "All item values are numbers");
   });
 
   QUnit.test("JSONModel busy flag defaults to false", function (assert) {
@@ -85,7 +89,7 @@ sap.ui.define([
     );
   });
 
-  QUnit.test("JSONModel busy flag can be set to true", function (assert) {
+  QUnit.test("JSONModel busy flag can be updated", function (assert) {
     this.oModel.setProperty("/busy", true);
     assert.strictEqual(
       this.oModel.getProperty("/busy"), true,
@@ -149,9 +153,10 @@ sap.ui.define([
     assert.equal(aDoubled[2], 600, "Third value doubled is 600");
   });
 
-  QUnit.test("String formatting works correctly", function (assert) {
+  QUnit.test("String concatenation works", function (assert) {
     var sResult = "Item: " + 42;
-    assert.equal(sResult, "Item: 42", "String concatenation with number works");
+    assert.equal(sResult, "Item: 42",
+      "String concatenation with number works");
   });
 
 });
