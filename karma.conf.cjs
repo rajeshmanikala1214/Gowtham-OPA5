@@ -4,11 +4,7 @@ module.exports = function (config) {
     frameworks: ["ui5"],
 
     ui5: {
-      type: "application",
-      paths: {
-        webapp: "webapp"
-      }
-      // No url/version — use whatever is in webapp/resources/ (1.147.0 local)
+     configPath: "ui5.yaml"
     },
 
     hostname: process.env.PIPER_SELENIUM_HOSTNAME || "karma",
