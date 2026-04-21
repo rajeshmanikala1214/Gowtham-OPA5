@@ -6,13 +6,9 @@ sap.ui.define([
 ], function (Controller, JSONModel) {
   "use strict";
 
-  // Create a minimal mock controller that mirrors Main.controller
-  // without pulling in MessageBox and its heavy dependency chain
   var MockMainController = Controller.extend(
     "com.sap.btp.zcurdapp.zopa.test.unit.MockMain", {
-      onInit: function () {
-        // minimal init - no MessageBox dependency
-      },
+      onInit: function () {},
       onPress: function () {}
     }
   );
@@ -30,24 +26,21 @@ sap.ui.define([
     assert.ok(this.oController, "Controller instance exists");
   });
 
-  QUnit.test("Controller has correct type", function (assert) {
+  QUnit.test("Controller extends sap.ui.core.mvc.Controller", function (assert) {
     assert.ok(
       this.oController instanceof Controller,
-      "Instance extends sap.ui.core.mvc.Controller"
+      "Instance is a Controller"
     );
   });
 
   QUnit.test("onInit does not throw", function (assert) {
     var bThrew = false;
-    try {
-      this.oController.onInit();
-    } catch (e) {
-      bThrew = true;
-    }
-    assert.ok(!bThrew, "onInit executes without error");
+    try { this.oController.onInit(); }
+    catch (e) { bThrew = true; }
+    assert.ok(!bThrew, "onInit runs without error");
   });
 
-  QUnit.module("Main Controller - Model Handling", {
+  QUnit.module("Main Controller - Model", {
     beforeEach: function () {
       this.oModel = new JSONModel({
         items: [
@@ -64,110 +57,87 @@ sap.ui.define([
     }
   });
 
-  QUnit.test("JSONModel contains 3 items", function (assert) {
+  QUnit.test("Model has 3 items", function (assert) {
     assert.equal(
       this.oModel.getProperty("/items").length, 3,
-      "Model contains 3 items"
+      "3 items in model"
     );
   });
 
-  QUnit.test("JSONModel item names are correct", function (assert) {
+  QUnit.test("Item names are correct", function (assert) {
     var aItems = this.oModel.getProperty("/items");
-    assert.equal(aItems[0].name, "Alpha", "First item is Alpha");
-    assert.equal(aItems[1].name, "Beta",  "Second item is Beta");
-    assert.equal(aItems[2].name, "Gamma", "Third item is Gamma");
+    assert.equal(aItems[0].name, "Alpha", "First is Alpha");
+    assert.equal(aItems[1].name, "Beta",  "Second is Beta");
+    assert.equal(aItems[2].name, "Gamma", "Third is Gamma");
   });
 
-  QUnit.test("JSONModel item values are numeric", function (assert) {
-    var aItems = this.oModel.getProperty("/items");
-    var bAllNumeric = aItems.every(function (o) {
+  QUnit.test("Item values are numeric", function (assert) {
+    var bOk = this.oModel.getProperty("/items").every(function (o) {
       return typeof o.value === "number";
     });
-    assert.ok(bAllNumeric, "All item values are numbers");
+    assert.ok(bOk, "All values are numbers");
   });
 
-  QUnit.test("JSONModel busy flag defaults to false", function (assert) {
-    assert.strictEqual(
-      this.oModel.getProperty("/busy"), false,
-      "Busy defaults to false"
-    );
+  QUnit.test("Busy defaults to false", function (assert) {
+    assert.strictEqual(this.oModel.getProperty("/busy"), false,
+      "Busy is false");
   });
 
-  QUnit.test("JSONModel selectedItem defaults to null", function (assert) {
-    assert.strictEqual(
-      this.oModel.getProperty("/selectedItem"), null,
-      "selectedItem defaults to null"
-    );
+  QUnit.test("selectedItem defaults to null", function (assert) {
+    assert.strictEqual(this.oModel.getProperty("/selectedItem"), null,
+      "selectedItem is null");
   });
 
-  QUnit.test("JSONModel busy flag can be updated", function (assert) {
+  QUnit.test("Busy can be set to true", function (assert) {
     this.oModel.setProperty("/busy", true);
-    assert.strictEqual(
-      this.oModel.getProperty("/busy"), true,
-      "Busy updated to true"
-    );
+    assert.strictEqual(this.oModel.getProperty("/busy"), true,
+      "Busy updated to true");
   });
 
-  QUnit.test("JSONModel item can be added", function (assert) {
+  QUnit.test("Item can be added", function (assert) {
     var aItems = this.oModel.getProperty("/items");
     aItems.push({ id: "4", name: "Delta", value: 400 });
     this.oModel.setProperty("/items", aItems);
-    assert.equal(
-      this.oModel.getProperty("/items").length, 4,
-      "Item count is now 4"
-    );
+    assert.equal(this.oModel.getProperty("/items").length, 4,
+      "Count is 4 after add");
   });
 
-  QUnit.test("JSONModel item can be removed", function (assert) {
+  QUnit.test("Item can be removed", function (assert) {
     var aItems = this.oModel.getProperty("/items");
     aItems.splice(0, 1);
     this.oModel.setProperty("/items", aItems);
-    assert.equal(
-      this.oModel.getProperty("/items").length, 2,
-      "Item count is now 2"
-    );
+    assert.equal(this.oModel.getProperty("/items").length, 2,
+      "Count is 2 after remove");
   });
 
   QUnit.module("Main Controller - Logic");
 
-  QUnit.test("Filter reduces item count", function (assert) {
-    var aItems = [
-      { id: "1", name: "Alpha", value: 100 },
-      { id: "2", name: "Beta",  value: 200 },
-      { id: "3", name: "Gamma", value: 300 }
-    ];
-    var aFiltered = aItems.filter(function (o) {
-      return o.value > 150;
+  QUnit.test("Filter works", function (assert) {
+    var aFiltered = [100, 200, 300].filter(function (v) {
+      return v > 150;
     });
-    assert.equal(aFiltered.length, 2, "Filter >150 yields 2 items");
+    assert.equal(aFiltered.length, 2, "Filter >150 gives 2 items");
   });
 
-  QUnit.test("Sort orders items ascending", function (assert) {
-    var aItems = [
-      { name: "Beta",  value: 200 },
-      { name: "Alpha", value: 100 },
-      { name: "Gamma", value: 300 }
-    ];
-    aItems.sort(function (a, b) { return a.value - b.value; });
-    assert.equal(aItems[0].name, "Alpha",
-      "Lowest value item is first after sort");
-  });
-
-  QUnit.test("Object property assignment works", function (assert) {
-    var oItem = { id: "1", name: "Alpha", value: 100 };
-    oItem.status = "active";
-    assert.equal(oItem.status, "active", "Status assigned correctly");
-  });
-
-  QUnit.test("Array map doubles values", function (assert) {
-    var aDoubled = [100, 200, 300].map(function (v) { return v * 2; });
-    assert.equal(aDoubled[0], 200, "100 doubled is 200");
-    assert.equal(aDoubled[2], 600, "300 doubled is 600");
+  QUnit.test("Sort ascending works", function (assert) {
+    var aSorted = [30, 10, 20].sort(function (a, b) { return a - b; });
+    assert.equal(aSorted[0], 10, "Smallest is first");
   });
 
   QUnit.test("String concatenation works", function (assert) {
     assert.equal("Item: " + 42, "Item: 42",
-      "String + number concatenation works");
+      "Concatenation produces correct string");
+  });
+
+  QUnit.test("Map doubles values", function (assert) {
+    var aDoubled = [100, 200, 300].map(function (v) { return v * 2; });
+    assert.equal(aDoubled[1], 400, "200 doubled is 400");
+  });
+
+  QUnit.test("Object assignment works", function (assert) {
+    var o = { name: "Alpha" };
+    o.status = "active";
+    assert.equal(o.status, "active", "Status assigned correctly");
   });
 
 });

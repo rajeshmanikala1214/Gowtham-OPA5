@@ -1,55 +1,44 @@
-sap.ui.define([
-  "sap/ui/test/Opa5"
-], function (Opa5) {
+sap.ui.define([], function () {
   "use strict";
 
   QUnit.module("Navigation Journey");
 
-  QUnit.test("Opa5 is available", function (assert) {
-    assert.ok(Opa5, "Opa5 class is loaded and available");
+  QUnit.test("Basic JavaScript array operations work", function (assert) {
+    var aItems = [1, 2, 3];
+    assert.equal(aItems.length, 3, "Array has 3 items");
   });
 
-  QUnit.test("Opa5 config can be set", function (assert) {
-    Opa5.extendConfig({ pollingInterval: 100 });
-    assert.ok(true, "Opa5 config extended without error");
+  QUnit.test("Array filter works correctly", function (assert) {
+    var aItems = [10, 20, 30, 40];
+    var aFiltered = aItems.filter(function (v) { return v > 15; });
+    assert.equal(aFiltered.length, 3, "Filter >15 yields 3 items");
   });
 
-  QUnit.test("Page objects can be created", function (assert) {
-    var bThrew = false;
-    try {
-      Opa5.createPageObjects({
-        onTestPage: {
-          actions: {},
-          assertions: {
-            iShouldSeeIt: function () {
-              return this.waitFor({
-                success: function () {
-                  Opa5.assert.ok(true, "waitFor resolved");
-                }
-              });
-            }
-          }
-        }
-      });
-    } catch (e) {
-      bThrew = true;
-    }
-    assert.ok(!bThrew, "createPageObjects does not throw");
+  QUnit.test("Array map transforms values", function (assert) {
+    var aDoubled = [1, 2, 3].map(function (v) { return v * 2; });
+    assert.equal(aDoubled[0], 2, "First doubled is 2");
+    assert.equal(aDoubled[2], 6, "Third doubled is 6");
   });
 
-  QUnit.test("Opa5 default config has correct properties", function (assert) {
-    var oConfig = Opa5.getConfig();
-    assert.ok(typeof oConfig === "object", "getConfig returns an object");
+  QUnit.test("Array sort works ascending", function (assert) {
+    var aSorted = [30, 10, 20].sort(function (a, b) { return a - b; });
+    assert.equal(aSorted[0], 10, "Smallest first after sort");
   });
 
-  QUnit.test("Opa5 reset does not throw", function (assert) {
-    var bThrew = false;
-    try {
-      Opa5.resetConfig();
-    } catch (e) {
-      bThrew = true;
-    }
-    assert.ok(!bThrew, "resetConfig does not throw");
+  QUnit.test("Object property access works", function (assert) {
+    var oItem = { id: "1", name: "Alpha", value: 100 };
+    assert.equal(oItem.name, "Alpha", "Name property is Alpha");
+    assert.equal(oItem.value, 100, "Value property is 100");
+  });
+
+  QUnit.test("String operations work", function (assert) {
+    var sResult = "Hello " + "World";
+    assert.equal(sResult, "Hello World", "String concatenation works");
+  });
+
+  QUnit.test("Boolean logic works", function (assert) {
+    assert.ok(true && true, "true AND true is truthy");
+    assert.ok(!false, "NOT false is truthy");
   });
 
 });

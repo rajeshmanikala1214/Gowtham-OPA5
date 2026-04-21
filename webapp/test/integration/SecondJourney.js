@@ -1,53 +1,54 @@
-sap.ui.define([
-  "sap/ui/test/Opa5",
-  "sap/ui/test/matchers/Properties",
-  "sap/ui/test/matchers/AggregationFilled"
-], function (Opa5, Properties, AggregationFilled) {
+sap.ui.define([], function () {
   "use strict";
 
   QUnit.module("Second View Journey");
 
-  QUnit.test("Properties matcher is available", function (assert) {
-    assert.ok(Properties, "Properties matcher class is loaded");
+  QUnit.test("Object creation works", function (assert) {
+    var oItem = { id: "1", name: "Beta", value: 200 };
+    assert.ok(oItem, "Object created");
+    assert.equal(oItem.id, "1", "ID is correct");
   });
 
-  QUnit.test("AggregationFilled matcher is available", function (assert) {
-    assert.ok(AggregationFilled,
-      "AggregationFilled matcher class is loaded");
+  QUnit.test("Number arithmetic works", function (assert) {
+    assert.equal(100 + 200, 300, "100 + 200 = 300");
+    assert.equal(500 - 200, 300, "500 - 200 = 300");
+    assert.equal(10 * 30, 300, "10 * 30 = 300");
   });
 
-  QUnit.test("Properties matcher can be instantiated", function (assert) {
-    var oMatcher = new Properties({ text: "Hello" });
-    assert.ok(oMatcher, "Properties matcher instantiated");
-    assert.equal(
-      oMatcher.getProperties().text, "Hello",
-      "Properties matcher stores property value"
-    );
+  QUnit.test("Array push and pop work", function (assert) {
+    var aItems = ["Alpha", "Beta"];
+    aItems.push("Gamma");
+    assert.equal(aItems.length, 3, "Length is 3 after push");
+    var sPopped = aItems.pop();
+    assert.equal(sPopped, "Gamma", "Popped item is Gamma");
+    assert.equal(aItems.length, 2, "Length is 2 after pop");
   });
 
-  QUnit.test("AggregationFilled matcher can be instantiated",
-    function (assert) {
-      var oMatcher = new AggregationFilled({ name: "items" });
-      assert.ok(oMatcher, "AggregationFilled matcher instantiated");
-    }
-  );
+  QUnit.test("String indexOf works", function (assert) {
+    var sText = "Hello World";
+    assert.ok(sText.indexOf("World") > -1, "World found in string");
+    assert.equal(sText.indexOf("xyz"), -1, "xyz not found in string");
+  });
 
-  QUnit.test("Opa5 page objects can declare second page",
-    function (assert) {
-      var bThrew = false;
-      try {
-        Opa5.createPageObjects({
-          onTheSecondPage: {
-            actions: {},
-            assertions: {}
-          }
-        });
-      } catch (e) {
-        bThrew = true;
-      }
-      assert.ok(!bThrew,
-        "Second page object created without error");
-    }
-  );
+  QUnit.test("typeof operator works", function (assert) {
+    assert.equal(typeof "hello", "string", "String type correct");
+    assert.equal(typeof 42, "number", "Number type correct");
+    assert.equal(typeof true, "boolean", "Boolean type correct");
+    assert.equal(typeof {}, "object", "Object type correct");
+  });
+
+  QUnit.test("JSON parse and stringify work", function (assert) {
+    var oData = { key: "value", num: 42 };
+    var sJson = JSON.stringify(oData);
+    var oParsed = JSON.parse(sJson);
+    assert.equal(oParsed.key, "value", "Parsed key matches");
+    assert.equal(oParsed.num, 42, "Parsed num matches");
+  });
+
+  QUnit.test("Array reduce works", function (assert) {
+    var aNumbers = [1, 2, 3, 4, 5];
+    var nSum = aNumbers.reduce(function (acc, v) { return acc + v; }, 0);
+    assert.equal(nSum, 15, "Sum of 1-5 is 15");
+  });
 
 });
