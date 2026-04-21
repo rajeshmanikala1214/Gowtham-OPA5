@@ -1,5 +1,4 @@
 module.exports = function (config) {
-
   config.set({
 
     frameworks: ["ui5"],
@@ -11,7 +10,18 @@ module.exports = function (config) {
       }
     },
 
-    browsers: ["ChromeHeadless"],
+    browsers: ["ChromeWebDriver"],
+
+    customLaunchers: {
+      ChromeWebDriver: {
+        base: "WebDriver",
+        config: {
+          hostname: process.env.PIPER_SELENIUM_WEBDRIVER_HOSTNAME || "selenium",
+          port: 4444
+        },
+        browserName: "chrome"
+      }
+    },
 
     reporters: ["progress", "html"],
 
@@ -24,5 +34,4 @@ module.exports = function (config) {
     autoWatch: false
 
   });
-
 };
