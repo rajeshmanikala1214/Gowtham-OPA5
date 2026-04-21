@@ -8,7 +8,7 @@ steps:
     token: "squ_79729918fc50c1b6031ee56a075dc51b247406ce"
     projectKey: "com.sap.btp.zcurdapp.zopa"
     waitForQualityGate: false
-    dockerImage: "sonarsource/sonar-scanner-cli:4.8"
+    dockerImage: "sonarsource/sonar-scanner-cli:latest"
     options:
       - "-Dsonar.projectName=Gowtham OPA5 Tests"
       - "-Dsonar.projectVersion=0.0.1"
