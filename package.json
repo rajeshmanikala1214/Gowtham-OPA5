@@ -11,7 +11,6 @@
   "engines": {
     "node": "^22.13.1"
   },
-  "dependencies": {},
   "devDependencies": {
     "@sap-ux/eslint-plugin-fiori-tools": "^9.0.0",
     "@sap-ux/ui5-middleware-fe-mockserver": "2",
@@ -36,7 +35,7 @@
     "int-test": "fiori run --config ./ui5-mock.yaml --open \"test/integration/opaTests.qunit.html\"",
     "start-variants-management": "fiori run --open \"/preview.html#app-preview\"",
     "unit-test": "fiori run --config ./ui5-mock.yaml --open \"test/unit/unitTests.qunit.html\"",
-   "opa-ci": "karma start karma.conf.cjs"
+    "opa-ci": "karma start karma.conf.cjs"
   },
   "sapuxLayer": "CUSTOMER_BASE"
 }
