@@ -10,6 +10,9 @@ module.exports = function (config) {
       }
     },
 
+    hostname: "0.0.0.0",
+    listenAddress: "0.0.0.0",
+
     browsers: ["ChromeWebDriver"],
 
     customLaunchers: {
@@ -17,7 +20,7 @@ module.exports = function (config) {
         base: "WebDriver",
         config: {
           hostname: process.env.PIPER_SELENIUM_WEBDRIVER_HOSTNAME || "selenium",
-          port: parseInt(process.env.PIPER_SELENIUM_WEBDRIVER_PORT) || 4444
+          port: 4444
         },
         browserName: "chrome",
         flags: [
@@ -36,18 +39,14 @@ module.exports = function (config) {
       reportName: "OPA5-Test-Report"
     },
 
-    singleRun: true,
-    autoWatch: false,
-
-    // 🔥 IMPORTANT FIXES
-    browserNoActivityTimeout: 300000,
     browserDisconnectTimeout: 300000,
+    browserNoActivityTimeout: 300000,
     browserDisconnectTolerance: 3,
 
-    // 🔥 Helps UI5 resources load properly
-    proxies: {
-      "/resources/": "https://ui5.sap.com/resources/",
-      "/test-resources/": "https://ui5.sap.com/test-resources/"
-    }
+    captureTimeout: 300000,
+
+    singleRun: true,
+    autoWatch: false
+
   });
 };
