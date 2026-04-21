@@ -7,7 +7,10 @@ module.exports = function (config) {
       type: "application",
       paths: {
         webapp: "webapp"
-      }
+      },
+      // Load UI5 from CDN — avoids incomplete local resources
+      url: "https://ui5.sap.com",
+      version: "1.146.0"
     },
 
     hostname: process.env.PIPER_SELENIUM_HOSTNAME || "karma",
@@ -28,7 +31,9 @@ module.exports = function (config) {
         flags: [
           "--no-sandbox",
           "--disable-dev-shm-usage",
-          "--disable-gpu"
+          "--disable-gpu",
+          "--disable-web-security",
+          "--allow-running-insecure-content"
         ],
         pseudoActivityInterval: 30000
       }
