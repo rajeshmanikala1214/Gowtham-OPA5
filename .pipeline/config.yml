@@ -18,6 +18,8 @@ steps:
       - "-Dsonar.test.inclusions=webapp/test/**/*.js"
       - "-Dsonar.javascript.file.suffixes=.js"
       - "-Dsonar.testExecutionReportPaths=reports/test-execution.xml"
+      - "-Dsonar.token=squ_79729918fc50c1b6031ee56a075dc51b247406ce"
+      - "-Dsonar.login=squ_79729918fc50c1b6031ee56a075dc51b247406ce"
 
   testsPublishResults:
     failOnError: false
