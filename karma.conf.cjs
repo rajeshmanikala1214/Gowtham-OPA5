@@ -10,7 +10,10 @@ module.exports = function (config) {
       }
     },
 
-    hostname: "0.0.0.0",
+    // ✅ FIX: make Karma reachable from Selenium container
+    hostname: process.env.PIPER_SELENIUM_HOSTNAME || "0.0.0.0",
+
+    // keep this as-is (binding is fine)
     listenAddress: "0.0.0.0",
 
     browsers: ["ChromeWebDriver"],
@@ -19,8 +22,11 @@ module.exports = function (config) {
       ChromeWebDriver: {
         base: "WebDriver",
         config: {
+          // ✅ use Piper env vars properly
           hostname: process.env.PIPER_SELENIUM_WEBDRIVER_HOSTNAME || "selenium",
-          port: 4444
+          port: process.env.PIPER_SELENIUM_WEBDRIVER_PORT
+            ? parseInt(process.env.PIPER_SELENIUM_WEBDRIVER_PORT)
+            : 4444
         },
         browserName: "chrome",
         flags: [
@@ -39,10 +45,10 @@ module.exports = function (config) {
       reportName: "OPA5-Test-Report"
     },
 
+    // ✅ keep timeouts (good for CI)
     browserDisconnectTimeout: 300000,
     browserNoActivityTimeout: 300000,
     browserDisconnectTolerance: 3,
-
     captureTimeout: 300000,
 
     singleRun: true,
