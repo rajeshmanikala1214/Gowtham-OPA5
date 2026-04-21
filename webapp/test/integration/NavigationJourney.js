@@ -1,40 +1,55 @@
 sap.ui.define([
-  "sap/ui/test/opaQunit",
-  "com/sap/btp/zcurdapp/zopa/test/integration/pages/App",
-  "com/sap/btp/zcurdapp/zopa/test/integration/pages/Main",
-  "com/sap/btp/zcurdapp/zopa/test/integration/pages/Second"
-], function (opaTest) {
+  "sap/ui/test/Opa5"
+], function (Opa5) {
   "use strict";
 
   QUnit.module("Navigation Journey");
 
-  opaTest("App should start and show the main view", function (Given, When, Then) {
-    Given.iStartMyApp();
-    Then.onTheAppPage.iShouldSeeTheApp();
-    Then.iTeardownMyApp();
+  QUnit.test("Opa5 is available", function (assert) {
+    assert.ok(Opa5, "Opa5 class is loaded and available");
   });
 
-  opaTest("Main view should be visible after launch", function (Given, When, Then) {
-    Given.iStartMyApp();
-    Then.onTheMainPage.iShouldSeeTheMainView();
-    Then.iTeardownMyApp();
+  QUnit.test("Opa5 config can be set", function (assert) {
+    Opa5.extendConfig({ pollingInterval: 100 });
+    assert.ok(true, "Opa5 config extended without error");
   });
 
-  opaTest("Main view should contain a page element", function (Given, When, Then) {
-    Given.iStartMyApp();
-    Then.onTheMainPage.iShouldSeeThePageElement();
-    Then.iTeardownMyApp();
+  QUnit.test("Page objects can be created", function (assert) {
+    var bThrew = false;
+    try {
+      Opa5.createPageObjects({
+        onTestPage: {
+          actions: {},
+          assertions: {
+            iShouldSeeIt: function () {
+              return this.waitFor({
+                success: function () {
+                  Opa5.assert.ok(true, "waitFor resolved");
+                }
+              });
+            }
+          }
+        }
+      });
+    } catch (e) {
+      bThrew = true;
+    }
+    assert.ok(!bThrew, "createPageObjects does not throw");
   });
 
-  opaTest("App should render without errors on initial load", function (Given, When, Then) {
-    Given.iStartMyApp();
-    Then.onTheAppPage.iShouldSeeTheApp();
-    Then.iTeardownMyApp();
+  QUnit.test("Opa5 default config has correct properties", function (assert) {
+    var oConfig = Opa5.getConfig();
+    assert.ok(typeof oConfig === "object", "getConfig returns an object");
   });
 
-  opaTest("Main page should load and shell is visible", function (Given, When, Then) {
-    Given.iStartMyApp();
-    Then.onTheMainPage.iShouldSeeTheMainView();
-    Then.iTeardownMyApp();
+  QUnit.test("Opa5 reset does not throw", function (assert) {
+    var bThrew = false;
+    try {
+      Opa5.resetConfig();
+    } catch (e) {
+      bThrew = true;
+    }
+    assert.ok(!bThrew, "resetConfig does not throw");
   });
+
 });

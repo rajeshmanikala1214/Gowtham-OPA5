@@ -7,9 +7,8 @@ module.exports = function (config) {
       type: "application",
       paths: {
         webapp: "webapp"
-      },
-      url: "https://ui5.sap.com",
-      version: "1.120.23"
+      }
+      // No url/version — use whatever is in webapp/resources/ (1.147.0 local)
     },
 
     hostname: process.env.PIPER_SELENIUM_HOSTNAME || "karma",
