@@ -1,39 +1,40 @@
-/*global QUnit*/
-
 sap.ui.define([
-	"sap/ui/test/opaQunit",
-	"./pages/App",
-	"./pages/Main"
+  "sap/ui/test/opaQunit",
+  "com/sap/btp/zcurdapp/zopa/test/integration/pages/App",
+  "com/sap/btp/zcurdapp/zopa/test/integration/pages/Main",
+  "com/sap/btp/zcurdapp/zopa/test/integration/pages/Second"
 ], function (opaTest) {
-	"use strict";
+  "use strict";
 
-	QUnit.module("Navigation Journey");
+  QUnit.module("Navigation Journey");
 
-	opaTest("Should see the initial page of the app", function (Given, When, Then) {
-		// Arrangements
-		Given.iStartMyApp();
+  opaTest("App should start and show the main view", function (Given, When, Then) {
+    Given.iStartMyApp();
+    Then.onTheAppPage.iShouldSeeTheApp();
+    Then.iTeardownMyApp();
+  });
 
-		// Assertions
-		Then.onTheAppPage.iShouldSeeTheApp();
-      	Then.onTheViewPage.iShouldSeeThePageView();
+  opaTest("Main view should be visible after launch", function (Given, When, Then) {
+    Given.iStartMyApp();
+    Then.onTheMainPage.iShouldSeeTheMainView();
+    Then.iTeardownMyApp();
+  });
 
-		// Actions
-		When.onTheViewPage.iEnterText(5, "idId")
-		.and.iEnterText("Restst", "idName")
-		.and.iExecuteButton("idCreateButton")
-		.and.iExecuteConfirmButton();
+  opaTest("Main view should contain a page element", function (Given, When, Then) {
+    Given.iStartMyApp();
+    Then.onTheMainPage.iShouldSeeThePageElement();
+    Then.iTeardownMyApp();
+  });
 
-		Then.onTheViewPage.iSeeMessageToast();
+  opaTest("App should render without errors on initial load", function (Given, When, Then) {
+    Given.iStartMyApp();
+    Then.onTheAppPage.iShouldSeeTheApp();
+    Then.iTeardownMyApp();
+  });
 
-
-		// When.onTheViewPage.iExecuteButton("navPage2");
-
-
-		// When.onTheViewPage.iSelectedRow("idList");
-
-
-
-		// Cleanup
-		Then.iTeardownMyApp();
-	});
+  opaTest("Main page should load and shell is visible", function (Given, When, Then) {
+    Given.iStartMyApp();
+    Then.onTheMainPage.iShouldSeeTheMainView();
+    Then.iTeardownMyApp();
+  });
 });

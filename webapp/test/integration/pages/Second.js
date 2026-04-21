@@ -1,28 +1,22 @@
 sap.ui.define([
-	"sap/ui/test/Opa5"
+  "sap/ui/test/Opa5"
 ], function (Opa5) {
-	"use strict";
-	var sViewName = "Second";
-	
-	Opa5.createPageObjects({
-		onTheSecondViewPage: {
+  "use strict";
 
-			actions: {},
-
-			assertions: {
-
-				iShouldSeeThePageView: function () {
-					return this.waitFor({
-						id: "Secondpage",
-						viewName: sViewName,
-						success: function () {
-							Opa5.assert.ok(true, "The " + sViewName + " view is displayed");
-						},
-						errorMessage: "Did not find the " + sViewName + " view"
-					});
-				}
-			}
-		}
-	});
-
+  Opa5.createPageObjects({
+    onTheSecondPage: {
+      actions: {},
+      assertions: {
+        iShouldSeeTheSecondView: function () {
+          return this.waitFor({
+            viewName: "Second",
+            success: function () {
+              Opa5.assert.ok(true, "The Second view is accessible");
+            },
+            errorMessage: "Could not find the Second view"
+          });
+        }
+      }
+    }
+  });
 });

@@ -10,11 +10,9 @@ module.exports = function (config) {
       }
     },
 
-    // ✅ FIX: make Karma reachable from Selenium container
-    hostname: process.env.PIPER_SELENIUM_HOSTNAME || "0.0.0.0",
-
-    // keep this as-is (binding is fine)
+    hostname: process.env.PIPER_SELENIUM_HOSTNAME || "karma",
     listenAddress: "0.0.0.0",
+    port: 9876,
 
     browsers: ["ChromeWebDriver"],
 
@@ -22,13 +20,11 @@ module.exports = function (config) {
       ChromeWebDriver: {
         base: "WebDriver",
         config: {
-          // ✅ use Piper env vars properly
           hostname: process.env.PIPER_SELENIUM_WEBDRIVER_HOSTNAME || "selenium",
-          port: process.env.PIPER_SELENIUM_WEBDRIVER_PORT
-            ? parseInt(process.env.PIPER_SELENIUM_WEBDRIVER_PORT)
-            : 4444
+          port: parseInt(process.env.PIPER_SELENIUM_WEBDRIVER_PORT) || 4444
         },
         browserName: "chrome",
+        name: "Karma",
         flags: [
           "--no-sandbox",
           "--disable-dev-shm-usage",
@@ -38,21 +34,40 @@ module.exports = function (config) {
       }
     },
 
-    reporters: ["progress", "html"],
+    reporters: ["progress", "html", "junit"],
 
     htmlReporter: {
       outputDir: "test-results/opa",
       reportName: "OPA5-Test-Report"
     },
 
-    // ✅ keep timeouts (good for CI)
-    browserDisconnectTimeout: 300000,
-    browserNoActivityTimeout: 300000,
+    junitReporter: {
+      outputDir: "reports",
+      outputFile: "TESTS-karma.xml",
+      useBrowserName: false,
+      suite: "KarmaTests"
+    },
+
+    captureTimeout: 210000,
+    browserDisconnectTimeout: 210000,
     browserDisconnectTolerance: 3,
-    captureTimeout: 300000,
+    browserNoActivityTimeout: 210000,
 
     singleRun: true,
-    autoWatch: false
+    autoWatch: false,
+    colors: true,
+    logLevel: config.LOG_INFO,
 
+    forceJSONP: true,
+    concurrency: 1,
+
+    plugins: [
+      "karma-ui5",
+      "karma-qunit",
+      "karma-chrome-launcher",
+      "karma-html-reporter",
+      "karma-junit-reporter",
+      "karma-webdriver-launcher"
+    ]
   });
 };

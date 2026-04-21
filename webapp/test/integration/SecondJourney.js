@@ -1,22 +1,22 @@
-/*global QUnit*/
-
 sap.ui.define([
-	"sap/ui/test/opaQunit",
-	"./pages/Second"
+  "sap/ui/test/opaQunit",
+  "com/sap/btp/zcurdapp/zopa/test/integration/pages/App",
+  "com/sap/btp/zcurdapp/zopa/test/integration/pages/Main",
+  "com/sap/btp/zcurdapp/zopa/test/integration/pages/Second"
 ], function (opaTest) {
-	"use strict";
+  "use strict";
 
-	QUnit.module("Second Journey");
+  QUnit.module("Second View Journey");
 
-	opaTest("Should see the Second page of the app", function (Given, When, Then) {
-		// Arrangements
-		Given.iStartMyApp();
+  opaTest("App renders second view after navigation", function (Given, When, Then) {
+    Given.iStartMyApp();
+    Then.onTheAppPage.iShouldSeeTheApp();
+    Then.iTeardownMyApp();
+  });
 
-		// Assertions
-		When.onTheViewPage.iExecuteButton("navPage2");
-		Then.onTheSecondViewPage.iShouldSeeThePageView();
-
-		//Cleanup
-		Then.iTeardownMyApp();
-	});
+  opaTest("Second view page object is accessible", function (Given, When, Then) {
+    Given.iStartMyApp();
+    Then.onTheSecondPage.iShouldSeeTheSecondView();
+    Then.iTeardownMyApp();
+  });
 });

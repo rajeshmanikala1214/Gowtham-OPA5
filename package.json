@@ -2,14 +2,10 @@
   "name": "zopa",
   "version": "0.0.1",
   "description": "An SAP Fiori application.",
-  "keywords": [
-    "ui5",
-    "openui5",
-    "sapui5"
-  ],
+  "keywords": ["ui5", "openui5", "sapui5"],
   "main": "webapp/index.html",
   "engines": {
-    "node": "^22.13.1"
+    "node": ">=18.0.0"
   },
   "devDependencies": {
     "@sap-ux/eslint-plugin-fiori-tools": "^9.0.0",
@@ -20,6 +16,7 @@
     "karma": "^6.4.4",
     "karma-chrome-launcher": "^3.2.0",
     "karma-html-reporter": "^0.2.7",
+    "karma-junit-reporter": "^2.0.1",
     "karma-qunit": "^4.2.1",
     "karma-ui5": "^4.1.0",
     "karma-webdriver-launcher": "^1.0.8"
