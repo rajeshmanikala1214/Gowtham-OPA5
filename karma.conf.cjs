@@ -10,12 +10,6 @@ module.exports = function (config) {
       }
     },
 
-    // 🔥 CRITICAL FIX (from your reference)
-    hostname: process.env.PIPER_SELENIUM_HOSTNAME || "karma",
-    listenAddress: "0.0.0.0",
-
-    port: 9876,
-
     browsers: ["ChromeWebDriver"],
 
     customLaunchers: {
@@ -26,11 +20,11 @@ module.exports = function (config) {
           port: parseInt(process.env.PIPER_SELENIUM_WEBDRIVER_PORT) || 4444
         },
         browserName: "chrome",
-
-        // 🔥 IMPORTANT for Docker stability
-        flags: ["--no-sandbox", "--disable-dev-shm-usage"],
-
-        // 🔥 keeps session alive
+        flags: [
+          "--no-sandbox",
+          "--disable-dev-shm-usage",
+          "--disable-gpu"
+        ],
         pseudoActivityInterval: 30000
       }
     },
@@ -42,18 +36,18 @@ module.exports = function (config) {
       reportName: "OPA5-Test-Report"
     },
 
-    // 🔥 VERY IMPORTANT (from your reference)
-    captureTimeout: 210000,
-    browserDisconnectTimeout: 210000,
-    browserDisconnectTolerance: 3,
-    browserNoActivityTimeout: 210000,
-
-    concurrency: 1,
-
     singleRun: true,
     autoWatch: false,
 
-    logLevel: config.LOG_INFO
+    // 🔥 IMPORTANT FIXES
+    browserNoActivityTimeout: 300000,
+    browserDisconnectTimeout: 300000,
+    browserDisconnectTolerance: 3,
 
+    // 🔥 Helps UI5 resources load properly
+    proxies: {
+      "/resources/": "https://ui5.sap.com/resources/",
+      "/test-resources/": "https://ui5.sap.com/test-resources/"
+    }
   });
 };
