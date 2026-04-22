@@ -140,4 +140,29 @@ sap.ui.define([
     assert.equal(o.status, "active", "Status assigned correctly");
   });
 
+  QUnit.module("Main Controller - Known Issues (Expected Failures)");
+
+  QUnit.test("XFAIL: string comparison is case-sensitive", function (assert) {
+    // This test intentionally fails to demonstrate failure reporting
+    assert.equal("hello", "Hello", "Case-sensitive comparison fails as expected");
+  });
+
+  QUnit.test("XFAIL: strict equality with type coercion", function (assert) {
+    assert.strictEqual(1, "1", "Strict equality between number and string fails");
+  });
+
+  QUnit.test("XFAIL: empty array is not falsy", function (assert) {
+    assert.notOk([], "Empty array is truthy in JS - this assertion fails");
+  });
+
+  QUnit.test("XFAIL: object identity comparison", function (assert) {
+    var o1 = { id: 1 };
+    var o2 = { id: 1 };
+    assert.strictEqual(o1, o2, "Two separate objects are not identical");
+  });
+
+  QUnit.test("XFAIL: floating point precision", function (assert) {
+    assert.strictEqual(0.1 + 0.2, 0.3, "Floating point 0.1+0.2 does not equal 0.3 exactly");
+  });
+  
 });
